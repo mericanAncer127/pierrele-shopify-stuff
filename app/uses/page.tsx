@@ -8,8 +8,8 @@ const contentPath = path.join(process.cwd(), 'app', 'uses', 'content.mdx');
 const { content } = readMDXFile(contentPath);
 
 export const metadata = {
-  title: 'Uses',
-  description: 'What I use',
+  title: 'Services',
+  description: 'What I offer',
 };
 
 export default function Page() {

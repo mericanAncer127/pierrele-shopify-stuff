@@ -1,0 +1,128 @@
+---
+title: 'How to Customize Product Cards on Shopify Collection Pages for Instant Variant Selection'
+publishedAt: '2024-08-15'
+summary: 'Learn how to modify Shopify product cards to allow users to try multiple variants without page reloads.'
+---
+
+## Intro
+
+When developing a Shopify store, the collection pages are one of the most important components. They allow customers to browse through your products easily. However, there’s always room for improvement in terms of user experience (UX). One common request from store owners is to let users select different variants of a product (such as size, color, etc.) directly from the collection page without reloading the page. In this blog post, we’ll walk through the process of customizing product cards on collection pages, allowing customers to try multiple variants instantly without any page reloads.
+
+## Why This Is Important
+
+When browsing a collection, customers typically want to see different variations of a product. Imagine a user who sees a T-shirt they like, but they want to check how it looks in a different color. Instead of navigating to the product page, they can instantly switch between variants (e.g., color, size) right from the collection page.
+
+This seamless experience reduces friction and makes it easier for customers to find exactly what they want. The quicker and easier it is to interact with products, the more likely customers are to complete a purchase.
+
+## How We’ll Achieve This
+
+To make this work, we need to perform a few key customizations on the Shopify collection page:
+
+1.  **Add variant selectors to product cards.**
+2.  **Use JavaScript to dynamically update product variants without page reloads.**
+3.  **Update the product images, prices, and other relevant information when a variant is selected.**
+
+## Step 1: Modify the Product Card Template
+
+The first thing we need to do is modify the product card on the collection page. By default, Shopify renders product information in a grid layout, which includes a product image, title, and price. We want to add variant selectors to this layout.
+
+### Example Liquid Code:
+
+```liquid
+{% for product in collection.products %}
+    <div class="product-card">
+        <a href="{{ product.url }}">
+        <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}">
+        </a>
+        <h3>{{ product.title }}</h3>
+        <p class="product-price">{{ product.price | money }}</p>
+
+        <!-- Variant Selector -->
+        {% if product.variants.size > 1 %}
+        <select class="variant-selector" data-product-id="{{ product.id }}">
+            {% for variant in product.variants %}
+            <option value="{{ variant.id }}" {% if variant.available == false %}disabled{% endif %}>
+                {{ variant.title }} - {% if variant.available == false %}Sold Out{% else %}{{ variant.price | money }}{% endif %}
+            </option>
+            {% endfor %}
+        </select>
+        {% endif %}
+    </div>
+{% endfor %}
+```
+
+## Step 2: Add JavaScript for Variant Switching
+
+Next, we need JavaScript to handle the variant switching. This script will listen for changes in the variant selector and update the displayed product details dynamically (without page reload).
+
+### Example JavaScript:
+
+```js
+document.addEventListener('DOMContentLoaded', function () {
+  // Target all variant selectors
+  const variantSelectors = document.querySelectorAll('.variant-selector');
+
+  variantSelectors.forEach(function (select) {
+    select.addEventListener('change', function (event) {
+      const productId = event.target.getAttribute('data-product-id');
+      const variantId = event.target.value;
+      const selectedVariant = getVariantById(productId, variantId);
+
+      if (selectedVariant) {
+        // Update the product image
+        const productCard = event.target.closest('.product-card');
+        const productImage = productCard.querySelector('img');
+        productImage.src = selectedVariant.image.src;
+
+        // Update the product price
+        const productPrice = productCard.querySelector('.product-price');
+        productPrice.innerText = selectedVariant.price;
+
+        // Optionally, show availability or out-of-stock info
+        if (!selectedVariant.available) {
+          productPrice.classList.add('out-of-stock');
+        } else {
+          productPrice.classList.remove('out-of-stock');
+        }
+      }
+    });
+  });
+
+  // Function to get the variant data by ID
+  function getVariantById(productId, variantId) {
+    const product = window.shopifyProducts[productId];
+    return product.variants.find((variant) => variant.id == variantId);
+  }
+});
+```
+
+## Step 3: Populate Variant Data (Using Shopify’s AJAX API)
+
+Shopify provides an AJAX API that allows you to interact with the product and variant data without a page reload. In the script above, we used `window.shopifyProducts`, which should be populated with product data. This can be done by using Shopify’s AJAX API to fetch product and variant details dynamically.
+
+### Example of Fetching Product Data:
+
+```js
+fetch(`/products/${product.handle}.js`)
+  .then((response) => response.json())
+  .then((data) => {
+    window.shopifyProducts[product.id] = data;
+  });
+```
+
+## Step 4: Test and Fine-Tune
+
+Now that the basic functionality is in place, it’s time to test it out. Check the following:
+
+- Ensure the correct variant images are loading.
+- Make sure the prices update when a new variant is selected.
+- Verify that the product cards are responsive and look good on mobile devices.
+- Check for performance issues. If you have a large catalog, you may want to optimize your JavaScript to minimize the number of API calls.
+
+## Conclusion
+
+By adding the ability to switch between variants on the collection page, you can enhance the user experience on your Shopify store. It eliminates the need for customers to navigate away from the collection page to see different options, making the shopping experience faster and more enjoyable.
+
+While the approach discussed here provides a basic framework for achieving variant switching without page reloads, you can always expand on it by adding features like real-time stock updates, dynamic add-to-cart buttons, or hover effects for variant previews.
+
+Happy coding, and happy selling!

@@ -1,12 +1,8 @@
 import path from 'path';
-import { Fragment, Suspense } from 'react';
+import { Fragment } from 'react';
 import { readMDXFile } from '../blog/utils';
 import { CustomMDX } from '../components/mdx';
-import SpotifySkeleton from '../components/spotify/spotify-skeleton';
-import TopTracks from '../components/spotify/top-tracks';
-import WakaStats from '../components/wakatime/wakastats';
-import WakatimeSkeleton from '../components/wakatime/wakatime-skeleton';
-import GithubContributions from './github-contributions/github-contributions';
+// import WakaStats from '../components/wakatime/wakastats';
 import Occupation from './occupation';
 
 const contentPath = path.join(process.cwd(), 'app', 'about', 'content.mdx');
@@ -14,7 +10,7 @@ const { content } = readMDXFile(contentPath);
 
 export const metadata = {
   title: 'About',
-  description: 'About Dale Larroder',
+  description: 'About Pierre Le',
 };
 
 export default function Page() {
@@ -22,8 +18,8 @@ export default function Page() {
     <Fragment>
       <Occupation />
       <CustomMDX source={content} />
-      <GithubContributions />
-      <Suspense
+      {/* <GithubContributions /> */}
+      {/* <Suspense
         fallback={
           <Fragment>
             <WakatimeSkeleton />
@@ -33,7 +29,7 @@ export default function Page() {
       >
         <WakaStats />
         <TopTracks />
-      </Suspense>
+      </Suspense> */}
     </Fragment>
   );
 }

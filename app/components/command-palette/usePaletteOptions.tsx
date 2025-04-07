@@ -61,7 +61,7 @@ export default function usePaletteOptions() {
     },
     {
       id: '/uses',
-      name: 'Uses',
+      name: 'Services',
       icon: <HiOutlineDocumentAdd />,
       onSelect: (v) => router.push(v),
     },

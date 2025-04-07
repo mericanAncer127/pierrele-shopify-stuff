@@ -7,7 +7,6 @@ import { navigationLinks } from './constants';
 import MobileNav from './mobile-nav';
 import SectionContainer from './section-container';
 import ThemeSwitch from './theme-switch';
-
 export default function Header() {
   const pathName = usePathname();
 
@@ -24,9 +23,9 @@ export default function Header() {
                   'horizontal-underline-active': pathName === '/',
                 }
               )}
-              aria-label="d."
+              aria-label="P."
             >
-              d.
+              P.
             </Link>
           </div>
           <div className="flex items-center space-x-3 text-base leading-5">

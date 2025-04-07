@@ -1,0 +1,116 @@
+---
+title: 'How to Apply Product-Type Based Discounts for B2B Customers at Checkout Using Shopify Functions'
+publishedAt: '2025-01-27'
+summary: 'In this post, we’ll walk through how to implement a checkout-level product-type discount for B2B users using a mix of a custom app, Shopify Functions, and some clever cart property usage.'
+---
+
+If you're building a custom Shopify experience for B2B customers, chances are you’ll run into pricing rules that don’t quite fit the out-of-the-box discounting options. A common request? Applying a discount **only** at checkout, based on product types — and only for authenticated B2B customers.
+
+## Overview
+
+Here’s the high-level plan:
+
+1.  Build a custom React/Node.js app to manage B2B pricing logic.
+2.  Add B2B-specific discount info to the cart using your app’s API.
+3.  Use a Shopify Function to apply product-type-based discounts at checkout.
+
+## Step 1: Build a React/Node.js App to Manage B2B Pricing Rules
+
+First, you’ll need a backend to store and serve your B2B pricing rules. This is useful if you have logic such as tiered pricing, customer tags, or product-type-based rules.
+
+### Recommended Tech Stack:
+
+- **Frontend:** React (optionally with Polaris)
+- **Backend:** Node.js + Express
+- **Database:** MongoDB or PostgreSQL
+
+### Sample API Route:
+
+```js
+app.get('/api/b2b-discount', async (req, res) => {
+  const { customerId, cart } = req.query;
+  const isB2B = await checkIfCustomerIsB2B(customerId);
+  const discountRules = await getDiscountRules();
+
+  if (isB2B) {
+    const applicableDiscount = calculateDiscount(cart, discountRules);
+    res.json({ applicableDiscount });
+  } else {
+    res.json({ applicableDiscount: 0 });
+  }
+});
+```
+
+## Step 2: Add Cart Properties for B2B Customers
+
+Use the API from Step 1 to tag the cart with B2B discount info. You can do this on the storefront using AJAX.
+
+### Example Script:
+
+```js
+fetch(`/api/b2b-discount?customerId=${Shopify.customer.id}&cart=${JSON.stringify(cartItems)}`)
+  .then((res) => res.json())
+  .then((data) => {
+    if (data.applicableDiscount) {
+      fetch('/cart/update.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          attributes: {
+            b2b_discount: JSON.stringify(data.applicableDiscount),
+          },
+        }),
+      });
+    }
+  });
+```
+
+This stores the discount data as a `cart attribute` so it’s accessible to Shopify Functions during checkout.
+
+## Step 3: Use a Shopify Function to Apply the Discount
+
+Use a **Shopify Function** to apply the discount based on cart properties and product type. Functions are run during checkout and allow powerful customization of cart behavior.
+
+### Sample Function (Rust):
+
+```rust
+use shopify_function::prelude::*;
+
+#[shopify_function]
+fn function(input: Input) -> Output {
+    let mut discounts = vec![];
+
+    if let Some(attr) = input.cart.buyer_identity.cart_attributes.get("b2b_discount") {
+        let discount_data: DiscountInfo = serde_json::from_str(attr).unwrap();
+
+        for line in input.cart.lines.iter() {
+            if line.merchandise.product.product_type == "Wholesale" {
+                discounts.push(CartDiscount {
+                    message: Some("B2B Discount Applied".to_string()),
+                    value: DiscountValue::Percentage(Percentage { value: discount_data.percentage }),
+                    targets: vec![DiscountTarget::ProductVariant(DiscountTargetProductVariant {
+                        id: line.merchandise.id.clone(),
+                    })],
+                });
+            }
+        }
+    }
+
+    Output {
+        discounts,
+        ..Default::default()
+    }
+}
+```
+
+## Conclusion
+
+This setup gives you full control over how and when B2B discounts are applied — using data from your own app and the power of Shopify Functions.
+
+### Benefits:
+
+- Real-time B2B discount logic powered by your backend
+- Dynamic discounting per product type
+- Scalable and maintainable implementation
+
+If you're running a hybrid B2B/B2C storefront, this technique allows you to customize pricing logic without cluttering your storefront or relying on manual discount codes.

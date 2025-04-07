@@ -7,14 +7,15 @@ import { Metadata } from 'next';
 import { ReactNode } from 'react';
 import { mukta } from './fonts';
 import './tailwind.css';
+import FlareCursor from './components/FlareCusor';
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Dale Larroder',
-    default: 'Dale Larroder',
+    template: '%s | Pierre Le',
+    default: 'Pierre Le',
   },
   description: 'I build things for the web.',
-  metadataBase: new URL('https://dalelarroder.com'),
+  metadataBase: new URL('https://pierrele-shopify-stuff.vercel.app'),
 };
 
 interface RootLayoutProps {
@@ -39,6 +40,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           enableSystem={false}
           themes={['dark', 'light']}
         >
+          <FlareCursor />
           <Header />
           <LenisProvider>{children}</LenisProvider>
           <Footer />

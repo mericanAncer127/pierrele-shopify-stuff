@@ -1,7 +1,7 @@
 export type WorkTile = {
   title: string;
   description: string;
-  image: {
+  video: {
     src: string;
     width: number;
     height: number;
@@ -10,37 +10,64 @@ export type WorkTile = {
 
 export const workTiles: WorkTile[] = [
   {
-    description: `Here are things`,
-    title: `I've worked on`,
-    image: {
-      src: '/static/images/aphex-apps.webp',
+    title: `Bremont`,
+    description: `Product use Case & Seamless Article Navigation`,
+    video: {
+      src: 'bremont/bremont2.webm',
       width: 600,
       height: 770,
     },
   },
   {
-    description: 'I built',
-    title: 'Aphex Field',
-    image: {
-      src: '/static/images/field-app.webp',
+    title: 'Burga',
+    description: 'Collection Navigation & Instant Checkout',
+    video: {
+      src: 'burga/burga2.webm',
       width: 600,
       height: 554,
     },
   },
   {
-    description: `I maintained`,
-    title: 'Aphex Planner',
-    image: {
-      src: '/static/images/planner-app.webp',
+    title: 'Daniel Wellington',
+    description: `Perfect Match Suggestion`,
+    video: {
+      src: 'danielwellington/danielwellington2.webm',
       width: 600,
       height: 717,
     },
   },
   {
-    description: `I built`,
-    title: 'Aphex Publication',
-    image: {
-      src: '/static/images/publication-app.webp',
+    title: 'Toysrus',
+    description: `User-Friendly Brand Navigation`,
+    video: {
+      src: 'toysrus/toysrus2.webm',
+      width: 600,
+      height: 717,
+    },
+  },
+  {
+    title: 'Happy Earth Tea',
+    description: `Simple UI for Product Browsing`,
+    video: {
+      src: 'happyearthtea/happyearthtea2.webm',
+      width: 600,
+      height: 717,
+    },
+  },
+  {
+    title: 'Savotta',
+    description: `Store Locator & Map Integration`,
+    video: {
+      src: 'savotta/savotta2.webm',
+      width: 600,
+      height: 717,
+    },
+  },
+  {
+    title: 'WP Standard',
+    description: `Instant Variant Swatch in Collection Page`,
+    video: {
+      src: 'wpstandard/wpstandard2.webm',
       width: 600,
       height: 717,
     },
