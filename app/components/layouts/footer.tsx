@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Suspense } from 'react';
-import { AiFillLinkedin } from 'react-icons/ai';
+// import { AiFillLinkedin } from 'react-icons/ai';
 import { siteMetadata } from '../metadata';
 // import NowPlaying from '../spotify/now-playing';
 import SectionContainer from './section-container';
@@ -20,7 +20,7 @@ export default function Footer() {
               </li>
             </ul>
             <ul className="flex cursor-pointer items-center space-x-5">
-              <li>
+              {/* <li>
                 <a
                   href={siteMetadata.linkedin}
                   target="_blank"
@@ -29,7 +29,7 @@ export default function Footer() {
                 >
                   <AiFillLinkedin className="sm:text-lg" />
                 </a>
-              </li>
+              </li> */}
               {/* <li>
                 <a href={siteMetadata.github} target="_blank" rel="noreferrer" aria-label="github">
                   <FaGithub className="sm:text-lg" />

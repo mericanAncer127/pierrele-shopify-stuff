@@ -9,6 +9,6 @@ export const siteMetadata = {
   siteLogo: '/static/images/logo.png',
   image: '/static/images/avatar.png',
   email: 'pierrele@gmail.com',
-  linkedin: 'https://www.linkedin.com/in/pierre-le-x/',
+  // linkedin: 'https://www.linkedin.com/in/pierre-le-x/',
   locale: 'en-US',
 };
