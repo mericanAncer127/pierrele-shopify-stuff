@@ -1,4 +1,4 @@
-import Image from 'next/image';
+// import Image from 'next/image';
 
 export default function Occupation() {
   return (
@@ -8,13 +8,13 @@ export default function Occupation() {
         <h2 className="text-sm font-normal md:text-base">Senior Shopify Engineer</h2>
       </div>
       <div>
-        <Image
+        {/* <Image
           alt="Pierre Le"
           height={150}
           width={200}
           src="/static/images/avatar.png"
           className="rounded-full object-scale-down grayscale"
-        />
+        /> */}
       </div>
     </section>
   );
