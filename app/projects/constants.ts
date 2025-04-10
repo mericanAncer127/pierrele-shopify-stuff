@@ -53,7 +53,7 @@ export const projects: Project[] = [
     src3: 'pimax/pimax3.webm',
     color: '#ddd6fe',
     url: 'https://pimax.com/',
-    role: 'Senior Shopify Developer',
+    role: 'Shopify Engineer',
   },
   {
     title: 'SAVOTTA',
@@ -62,7 +62,7 @@ export const projects: Project[] = [
     src3: 'savotta/savotta3.webm',
     color: '#ffedd5',
     url: 'https://www.savotta.fi/',
-    role: 'Shopify CRO Expert',
+    role: 'Senior Shopify Developer',
   },
   {
     title: 'Studio Proper',
@@ -80,7 +80,7 @@ export const projects: Project[] = [
     src3: 'toysrus/toysrus3.webm',
     color: '#ecfccb',
     url: 'https://www.toysrus.com/',
-    role: 'Full Stack Engineer',
+    role: 'Shopify CRO Expert',
   },
   {
     title: 'WP Standard',
@@ -89,6 +89,6 @@ export const projects: Project[] = [
     src3: 'wpstandard/wpstandard3.webm',
     color: '#ecfccb',
     url: 'https://wpstandard.com/',
-    role: 'Shopify Engineer',
+    role: 'Full Stack Engineer',
   },
 ];
